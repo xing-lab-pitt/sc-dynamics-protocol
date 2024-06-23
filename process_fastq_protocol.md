@@ -110,7 +110,7 @@ You may use other cellranger versions to better reproduce results from papers.
 
 ### The fastq file name convention for cellranger:
 
-You can find original data file names from "Data Access" table on SRA web pages.
+You can find original data file names from "Data Access" table on SRA web pages. E.g. - [From an SRA example: GSM4307836: Mouse_PDGFRab_Sham; Mus musculus; RNA-Seq (SRR11073243)](https://trace.ncbi.nlm.nih.gov/Traces/?view=run_browser&acc=SRR11073243&display=data-access)
 ![alt text](https://github.com/xing-lab-pitt/sc-dynamics-protocol/blob/main/figs/sra-data-access.png)
 
 ```
