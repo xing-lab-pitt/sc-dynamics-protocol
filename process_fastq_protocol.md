@@ -106,9 +106,13 @@ SSH or Secure Shell is a network protocol that allows users to securely access a
 ```sh
 export PATH=/net/capricorn/home/xing/jipark25/velocyto/cellranger-8.0.1:$PATH
 ```
-(My cellranger software is stored in the velocyto directory so I am pointing to that direction)
+You may use other cellranger versions to better reproduce results from papers.
 
 ### The fastq file name convention for cellranger:
+
+You can find original data file names from "Data Access" table on SRA web pages.
+![alt text](https://github.com/xing-lab-pitt/sc-dynamics-protocol/blob/main/figs/sra-data-access.png)
+
 ```
 SampleName_SampleNumber_LaneNumber_ReadNumber.fastq.gz
 (Ex. GSM4307836_S1_L001_R1_001.fastq.gz)
@@ -274,81 +278,4 @@ squeue -u your_username
 scancel job_id
 ```
 
-*There will be multiple datasets that need to be processed through cellranger, velocyto, or other software in the 10X genomics. So one might want to parallelly process the data using a terminal multiplexer (tmux).
-
-## Using TMUX (under remote server using ssh)
-[Tmux Guide](https://hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/)
-Tmux’s authors describe it as a terminal multiplexer. Behind this fancy term hides a simple concept: Within one terminal window you can open multiple windows and split-views (called “panes” in tmux lingo). Each pane will contain its own independently running shell instance (bash zsh whatever you’re using). This allows you to have multiple terminal commands and applications running side by side without the need to open multiple terminal emulator windows.
-On top of that tmux keeps these windows and panes in a session. You can exit a session at any point. This is called “detaching”. tmux will keep this session alive until you kill the tmux server (e.g. when you reboot). This is incredibly useful because at any later point in time you can pick that session up exactly from where you left it by simply “attaching” to that session.
-If you’ve ever worked with remote servers or a Raspberry Pi over ssh you can guess where this will be useful: When you lose your ssh connection the tmux session will simply be detached but will keep running on the server in the background including all the processes that run within your session. To continue your session simply ssh to the server again and attach to the running session.
-tmux is helpful when working on a remote machine but it shines just as much when you’re working locally. Not only for its window management features but also for the session handling. Personally I find myself detaching from sessions when I’m switching context. I’ll just start a new session for my new task and attach to the old session whenever I want to continue with my old task.
-
-### How to Install in remote server (ssh)
-1. Create a source directory:
-   ```sh
-   mkdir -p /net/capricorn/home/xing/jipark25/src
-   cd /net/capricorn/home/xing/jipark25/src
-   ```
-2. Download and compile ‘libevent’ ‘ncurses’ and ‘tmux’
-   #### Downloading libevent
-   ```sh
-   wget https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz
-   tar -xzf libevent-2.1.12-stable.tar.gz
-   cd libevent-2.1.12-stable
-   ./configure --prefix=$HOME/local
-   make
-   make install
-   ```
-   #### Downloading ncurses
-   ```sh
-   cd ~/local/src
-   wget https://ftp.gnu.org/pub/gnu/ncurses/ncurses-6.3.tar.gz
-   tar -xzf ncurses-6.3.tar.gz
-   cd ncurses-6.3
-   ./configure --prefix=$HOME/local
-   make
-   make install
-   ```
-   #### Downloading tmux
-   ```sh
-   wget https://github.com/tmux/tmux/releases/download/3.3a/tmux-3.3a.tar.gz
-   tar -xzf tmux-3.3a.tar.gz
-   cd tmux-3.3a
-   ./configure CFLAGS="-I$HOME/local/include -I$HOME/local/include/ncurses" LDFLAGS="-L$HOME/local/lib" --prefix=$HOME/local
-   make
-   make install
-   ```
-
-### Basic tmux usage
-- Start a new session: `tmux`
-- List sessions: `tmux ls`
-- Detach from a session: `Ctrl+b then d`
-- Attach to a specific session: `tmux attach -t mysession`
-- Kill a session: `tmux kill-session -t mysession`
-- Attach to a session: `tmux attach -t 0`
-- Make a new window: `Ctrl+b then c`
-- Switch between windows:
-  - `Ctrl+b then n`  # Next window
-  - `Ctrl+b then p`  # Previous window
-  - `Ctrl+b then [0-9]`  # Specific window
-
-### Example Workflow
-```sh
-tmux
-Long running command
-Detach from a session: Ctrl+b d
-Later you can go back to working session
-tmux ls
-tmux attach -t detached_session
-```
-
-### How It Works
-When you run a tmux session on a remote server the processes you start within that session are executed on the remote server itself not on your local machine. Here’s how this setup works:
-#### Local Machine:
-- Your local machine (laptop or desktop) is used to initiate an SSH connection to the remote server.
-- Once connected you start a tmux session on the remote server.
-- Any commands or processes you run within tmux are executed on the remote server.
-
-#### Remote Server:
-- The remote server is a computer (or a cluster of computers) managed by your university or organization.
-- The server continues to run the tmux session and all associated processes even if your local machine disconnects.
+You should typically submit one job for each sample from one paper. Later the separately-processed results will be aggregated into one through a python forloop via notebook. Based on whether batch effect correction algorithms preserve true biological variances, we may apply or not apply batch effect correction step.  
