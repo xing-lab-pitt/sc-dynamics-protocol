@@ -1,11 +1,12 @@
-# scRNA Sequencing Data Analysis Tutorial
+# scRNA-seq Fastq Data Processing Tutorial
 Authors: Ke, Jiho and Sophia
 
+In this tutorial, we mainly discuss how to obtain expression matrices, spliced and unspliced matrices from fastq outputs from 10x scRNA-seq experiments.
 
 ## Table of Contents
 - [How to use SSH](#how-to-use-ssh)
 - [How to download sequencing data from SRA NCBI](#how-to-download-sequencing-data-from-sra-ncbi)
-- [Software Use Guide: Cellranger count](#software-use-guide-cellranger-count)
+- [Software Use Guide: Cellranger](#software-use-guide-cellranger-count)
 - [Software User Guide: Velocyto](#software-user-guide-velocyto)
 - [Using Slurm](#using-slurm)
 - [Using TMUX (under remote server using ssh)](#using-tmux-under-remote-server-using-ssh)
