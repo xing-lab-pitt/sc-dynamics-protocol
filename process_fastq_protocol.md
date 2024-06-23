@@ -117,7 +117,7 @@ You can find original data file names from "Data Access" table on SRA web pages.
 SampleName_SampleNumber_LaneNumber_ReadNumber.fastq.gz
 (Ex. GSM4307836_S1_L001_R1_001.fastq.gz)
 ```
-** You must compress the fastq file to fastq.gz:
+**You must compress the fastq file to fastq.gz**
 ```
 gzip name_of_the_file.fastq
 ```
